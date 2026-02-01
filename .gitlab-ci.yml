@@ -1,0 +1,54 @@
+stages:
+  - install
+  - build
+  - test
+
+variables:
+  NODE_VERSION: "20"
+
+default:
+  image: node:${NODE_VERSION}
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+build:
+  stage: build
+  needs:
+    - install
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+typecheck:
+  stage: test
+  needs:
+    - install
+  script:
+    - npx vue-tsc --noEmit
+  allow_failure: false
+
+pages:
+  stage: test
+  needs:
+    - build
+  script:
+    - mv dist public
+  artifacts:
+    paths:
+      - public/
+  only:
+    - main

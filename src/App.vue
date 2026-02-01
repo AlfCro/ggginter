@@ -1,75 +1,76 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const bananaCount = ref(0)
+const fishCount = ref(0)
 
-function collectBanana(): void {
-  bananaCount.value++
+function catchFish(): void {
+  fishCount.value++
 }
 </script>
 
 <template>
-  <div class="banana-app">
-    <h1>Banana POC</h1>
-    <p class="tagline">Go bananas with Vite + Vue + TypeScript!</p>
-    <div class="banana-display">
-      <span class="banana-icon">🍌</span>
+  <div class="fish-app">
+    <h1>Fish POC</h1>
+    <p class="tagline">Dive deep with Vite + Vue + TypeScript!</p>
+    <div class="fish-display">
+      <span class="fish-icon">🐟</span>
     </div>
-    <button class="banana-button" @click="collectBanana">
-      Collect Banana! ({{ bananaCount }})
+    <button class="fish-button" @click="catchFish">
+      Catch Fish! ({{ fishCount }})
     </button>
   </div>
 </template>
 
 <style scoped>
-.banana-app {
+.fish-app {
   font-family: sans-serif;
   text-align: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #fff9c4 0%, #ffeb3b 100%);
+  background: linear-gradient(135deg, #e0f7fa 0%, #0097a7 100%);
   min-height: 100vh;
   margin: -8px;
 }
 
 h1 {
-  color: #5d4037;
-  text-shadow: 2px 2px 0px #ffcc00;
+  color: #01579b;
+  text-shadow: 2px 2px 0px #4dd0e1;
 }
 
 .tagline {
-  color: #6d4c41;
+  color: #006064;
   font-style: italic;
 }
 
-.banana-display {
+.fish-display {
   margin: 2rem 0;
 }
 
-.banana-icon {
+.fish-icon {
   font-size: 5rem;
-  animation: bounce 1s infinite;
+  animation: swim 2s ease-in-out infinite;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes swim {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(10px) rotate(5deg); }
+  75% { transform: translateX(-10px) rotate(-5deg); }
 }
 
-.banana-button {
+.fish-button {
   padding: 1rem 2rem;
   font-size: 1.2rem;
   cursor: pointer;
-  background-color: #ffc107;
-  border: 3px solid #5d4037;
+  background-color: #00bcd4;
+  border: 3px solid #01579b;
   border-radius: 25px;
-  color: #5d4037;
+  color: #01579b;
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
-.banana-button:hover {
-  background-color: #ffeb3b;
+.fish-button:hover {
+  background-color: #4dd0e1;
   transform: scale(1.05);
-  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
 }
 </style>
