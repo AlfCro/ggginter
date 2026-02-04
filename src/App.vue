@@ -1,11 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const fishCount = ref(0)
+const isMusicPlaying = ref(false)
+const audioRef = ref<HTMLAudioElement | null>(null)
 
 function catchFish(): void {
   fishCount.value++
 }
+
+function toggleMusic(): void {
+  if (audioRef.value) {
+    if (isMusicPlaying.value) {
+      audioRef.value.pause()
+    } else {
+      audioRef.value.play()
+    }
+    isMusicPlaying.value = !isMusicPlaying.value
+  }
+}
+
+onMounted(() => {
+  if (audioRef.value) {
+    audioRef.value.volume = 0.5
+  }
+})
 </script>
 
 <template>
@@ -15,9 +34,17 @@ function catchFish(): void {
     <div class="fish-display">
       <span class="fish-icon">🐟</span>
     </div>
-    <button class="fish-button" @click="catchFish">
-      Catch Fish! ({{ fishCount }})
-    </button>
+    <div class="button-container">
+      <button class="fish-button" @click="catchFish">
+        Catch Fish! ({{ fishCount }})
+      </button>
+      <button class="music-button" @click="toggleMusic">
+        {{ isMusicPlaying ? '🔇 Pause Music' : '🎵 Play Music' }}
+      </button>
+    </div>
+    <audio ref="audioRef" loop>
+      <source src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Aquarium_%28Saint-Sa%C3%ABns%29.ogg" type="audio/ogg">
+    </audio>
   </div>
 </template>
 
@@ -46,7 +73,7 @@ h1 {
 }
 
 .fish-icon {
-  font-size: 5rem;
+  font-size: 2.5rem;
   animation: swim 2s ease-in-out infinite;
 }
 
@@ -68,9 +95,29 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.fish-button:hover {
+.fish-button:hover,
+.music-button:hover {
   background-color: #4dd0e1;
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.music-button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background-color: #00bcd4;
+  border: 3px solid #01579b;
+  border-radius: 25px;
+  color: #01579b;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 </style>
